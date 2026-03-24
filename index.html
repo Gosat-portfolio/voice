@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GOSAT Voice — Telefonia VoIP Corporativa de Alta Performance</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:        #f4f8ff;
+    --bg-mid:    #eaf1ff;
+    --white:     #ffffff;
+    --navy:      #0a1e45;
+    --navy-soft: #1a3a70;
+    --blue:      #1F5FF7;
+    --blue-bright:#4E90EE;
+    --cyan:      #2767F7;
+    --cyan-soft: rgba(78,144,238,.1);
+    --text:      #1e2d50;
+    --muted:     #6b7fa3;
+    --card-bg:   #ffffff;
+    --border:    #d4e2f7;
+    --accent-green: #059669;
+    --accent-green-soft: rgba(5,150,105,.1);
+    --grad: linear-gradient(135deg, #4E90EE 0%, #1F5FF7 55%, #2767F7 100%);
+    --grad-text: linear-gradient(90deg, #4E90EE 0%, #1F5FF7 60%, #2767F7 100%);
+  }
+ 
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Lexend', sans-serif;
+    font-weight: 300;
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+ 
+  /* ── KEYFRAMES ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes fadeIn  { from{opacity:0} to{opacity:1} }
+  @keyframes pulse   { to { transform: scale(1.15); opacity: .5; } }
+  @keyframes blink   { 0%,100%{opacity:1} 50%{opacity:.3} }
+  @keyframes floatA  { 0%,100%{transform:translateX(-50%) translateY(0)} 50%{transform:translateX(-50%) translateY(-10px)} }
+  @keyframes floatB  { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-8px)} }
+  @keyframes floatC  { 0%,100%{transform:translateY(0)} 50%{transform:translateY(6px)} }
+  @keyframes ripple  {
+    0%   { box-shadow: 0 0 0 0 rgba(14,165,233,.5), 0 0 0 0 rgba(14,165,233,.25); }
+    100% { box-shadow: 0 0 0 12px rgba(14,165,233,0), 0 0 0 24px rgba(14,165,233,0); }
+  }
+ 
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1.1rem 6vw;
+    background: rgba(255,255,255,.92);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--border);
+    animation: fadeIn .5s ease both;
+  }
+
+  /* Logo esquerdo — GOSAT Telecom */
+  .nav-logo {
+    display: flex; align-items: center; text-decoration: none;
+    height: 40px;
+  }
+  .nav-logo img {
+    height: 36px;
+    width: auto;
+    object-fit: contain;
+    display: block;
+  }
+
+  /* Logo direito — GOSAT Voice (substitui botão) */
+  .nav-voice-logo {
+    display: flex; align-items: center; text-decoration: none;
+    height: 40px;
+    padding: .3rem .5rem;
+    border-radius: 8px;
+    transition: opacity .2s, transform .15s;
+  }
+  .nav-voice-logo:hover {
+    opacity: .85;
+    transform: translateY(-1px);
+  }
+  .nav-voice-logo img {
+    height: 34px;
+    width: auto;
+    object-fit: contain;
+    display: block;
+  }
+ 
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    display: flex; flex-direction: column; justify-content: center;
+    padding: 10rem 6vw 6rem;
+    background: linear-gradient(160deg, #ffffff 0%, #eaf1ff 50%, #dbeeff 100%);
+    position: relative; overflow: hidden;
+  }
+  .hero::before {
+    content: ''; position: absolute; top: -160px; right: -160px;
+    width: 700px; height: 700px; border-radius: 50%;
+    background: radial-gradient(circle, rgba(14,165,233,.15) 0%, transparent 65%);
+    animation: pulse 7s ease-in-out infinite alternate;
+  }
+  .hero::after {
+    content: ''; position: absolute; bottom: -120px; left: -120px;
+    width: 500px; height: 500px; border-radius: 50%;
+    background: radial-gradient(circle, rgba(21,83,212,.1) 0%, transparent 70%);
+    animation: pulse 9s ease-in-out infinite alternate-reverse;
+  }
+  .hero-grid {
+    display: grid; grid-template-columns: 55% 45%;
+    gap: 2rem; align-items: center; position: relative; z-index: 1;
+    max-width: 1200px; margin: 0 auto; width: 100%;
+  }
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: .5rem;
+    background: var(--cyan-soft); border: 1px solid rgba(14,165,233,.35);
+    border-radius: 100px; padding: .35rem 1rem;
+    font-size: .78rem; font-weight: 500; background: var(--grad-text); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    letter-spacing: .08em; text-transform: uppercase; margin-bottom: 1.5rem;
+    animation: fadeUp .7s .1s ease both;
+  }
+  .hero-badge::before {
+    content: ''; width: 7px; height: 7px; background: var(--cyan);
+    border-radius: 50%; animation: blink 1.4s infinite;
+  }
+  h1 {
+    font-family: 'Lexend', sans-serif; font-weight: 800;
+    font-size: clamp(2.2rem, 4.5vw, 3.6rem); line-height: 1.08;
+    letter-spacing: -.03em; color: var(--navy);
+    animation: fadeUp .7s .2s ease both;
+  }
+  h1 em {
+    font-style: normal;
+    background: var(--grad-text);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+  }
+  .hero-sub {
+    margin-top: 1.3rem; font-size: 1.05rem; color: var(--muted);
+    max-width: 480px; line-height: 1.75;
+    animation: fadeUp .7s .32s ease both;
+  }
+  .hero-actions {
+    display: flex; gap: 1rem; margin-top: 2rem; flex-wrap: wrap;
+    animation: fadeUp .7s .44s ease both;
+  }
+  .btn-primary {
+    background: var(--grad); color: #fff;
+    border: none; border-radius: 8px; padding: .9rem 2rem;
+    font-size: 1rem; font-weight: 500; cursor: pointer; text-decoration: none;
+    transition: opacity .2s, transform .15s, box-shadow .2s; display: inline-block;
+    box-shadow: 0 2px 14px rgba(31,95,247,.35);
+  }
+  .btn-primary:hover { opacity: .88; transform: translateY(-2px); box-shadow: 0 6px 22px rgba(31,95,247,.45); }
+  .btn-ghost {
+    background: transparent; color: var(--blue);
+    border: 1.5px solid rgba(31,95,247,.4); border-radius: 8px;
+    padding: .9rem 2rem; font-size: 1rem; font-weight: 400;
+    cursor: pointer; text-decoration: none;
+    transition: background .2s, transform .15s; display: inline-block;
+  }
+  .btn-ghost:hover { background: rgba(21,83,212,.06); transform: translateY(-2px); }
+  .btn-large { padding: 1.05rem 2.5rem; font-size: 1.05rem; border-radius: 10px; }
+ 
+  /* hero image */
+  .hero-visual {
+    display: flex;
+    justify-content: center; /* Centraliza o conteúdo */
+    align-items: center;
+    width: 100%;             /* Garante que o container use todo o espaço disponível */
+    overflow: visible;       /* IMPORTANTE: permite que o scale não seja cortado */
+}
+  .hero-img {
+  width: 500%; /* escala a imagem para 500% do seu tamanho original */
+  max-width: 100vh; /* controla o tamanho real */
+  height: auto;
+  display: block;
+  margin: 0 auto;
+  filter: drop-shadow(0 12px 40px rgba(31,95,247,.18));
+  animation: floatB 10s ease-in-out infinite;
+  
+}
+  /* ── STATS STRIP ── */
+  .stats-strip {
+    background: var(--navy);
+    display: grid; grid-template-columns: repeat(3, 1fr); text-align: center;
+  }
+  .stat-item {
+    padding: 2.5rem 1rem; border-right: 1px solid rgba(255,255,255,.08);
+    transition: background .2s; animation: fadeUp .6s ease both;
+  }
+  .stat-item:nth-child(1) { animation-delay: .05s; }
+  .stat-item:nth-child(2) { animation-delay: .15s; }
+  .stat-item:nth-child(3) { animation-delay: .25s; }
+  .stat-item:last-child { border-right: none; }
+  .stat-item:hover { background: rgba(255,255,255,.04); }
+  .stat-num { font-family: 'Lexend', sans-serif; font-size: 2.4rem; font-weight: 800; background: var(--grad-text); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+  .stat-label { font-size: .85rem; color: rgba(255,255,255,.55); margin-top: .25rem; }
+ 
+  /* ── GENERIC ── */
+  section { padding: 5.5rem 6vw; }
+  .section-tag {
+    display: inline-block;
+    font-size: .74rem; font-weight: 700; letter-spacing: .12em;
+    text-transform: uppercase; color: #fff;
+    background: var(--grad);
+    -webkit-background-clip: unset; -webkit-text-fill-color: unset; background-clip: unset;
+    padding: .38rem 1.1rem;
+    border-radius: 100px;
+    margin-bottom: 1rem;
+    box-shadow: 0 2px 12px rgba(31,95,247,.3);
+  }
+  h2 {
+    font-family: 'Lexend', sans-serif;
+    font-size: clamp(1.8rem, 3.2vw, 2.6rem);
+    font-weight: 800; line-height: 1.1; letter-spacing: -.025em; color: var(--navy);
+  }
+  h2 em { font-style: normal; background: var(--grad-text); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+  .section-intro { font-size: 1rem; color: var(--muted); max-width: 540px; margin-top: 1rem; line-height: 1.75; }
+ 
+  /* ── FEATURES ── */
+  .features { background: var(--white); }
+  .features-header { text-align: center; margin-bottom: 3rem; animation: fadeUp .6s .1s ease both; }
+  .features-header .section-intro { margin: 1rem auto 0; }
+  .feat-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px;
+    background: var(--border); border: 1px solid var(--border);
+    border-radius: 16px; overflow: hidden;
+    max-width: 1100px; margin: 0 auto;
+  }
+  .feat-card {
+    background: var(--white); padding: 2rem 1.8rem;
+    transition: background .2s; position: relative;
+    animation: fadeUp .5s ease both;
+  }
+  .feat-card:nth-child(1){animation-delay:.1s} .feat-card:nth-child(2){animation-delay:.18s}
+  .feat-card:nth-child(3){animation-delay:.26s} .feat-card:nth-child(4){animation-delay:.34s}
+  .feat-card:nth-child(5){animation-delay:.42s} .feat-card:nth-child(6){animation-delay:.5s}
+  .feat-card:hover { background: #f0f6ff; }
+  .feat-card::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+    background: var(--grad);
+    opacity: 0; transition: opacity .3s;
+  }
+  .feat-card:hover::before { opacity: 1; }
+  .feat-icon {
+    width: 46px; height: 46px; border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.3rem; margin-bottom: 1rem;
+    background: var(--cyan-soft); border: 1px solid rgba(14,165,233,.2);
+  }
+  .feat-title { font-family: 'Lexend', sans-serif; font-size: 1rem; font-weight: 700; color: var(--navy); margin-bottom: .5rem; }
+  .feat-desc { font-size: .88rem; color: var(--muted); line-height: 1.65; }
+  .feat-tag {
+    display: inline-block; margin-top: .8rem;
+    background: var(--accent-green-soft); color: var(--accent-green);
+    border: 1px solid rgba(5,150,105,.2);
+    border-radius: 4px; padding: .2rem .55rem;
+    font-size: .72rem; font-weight: 600; letter-spacing: .04em;
+  }
+ 
+  /* ── DIFERENCIAIS ── */
+  .diff { background: var(--bg-mid); }
+  .diff-header { text-align: center; margin-bottom: 3rem; animation: fadeUp .6s .05s ease both; }
+  .diff-grid {
+    display: grid; grid-template-columns: repeat(2, 1fr);
+    gap: 1.2rem; max-width: 1100px; margin: 0 auto;
+  }
+  .diff-card {
+    background: var(--white); border: 1px solid var(--border);
+    border-radius: 16px; padding: 1.8rem;
+    position: relative; overflow: hidden;
+    transition: transform .2s, box-shadow .2s, border-color .2s;
+    animation: fadeUp .5s ease both;
+    box-shadow: 0 1px 8px rgba(21,83,212,.06);
+  }
+  .diff-card:hover { transform: translateY(-4px); border-color: rgba(14,165,233,.4); box-shadow: 0 8px 28px rgba(21,83,212,.12); }
+  .diff-icon { font-size: 1.8rem; margin-bottom: .9rem; }
+  .diff-title { font-family: 'Lexend', sans-serif; font-size: 1.05rem; font-weight: 700; color: var(--navy); margin-bottom: .5rem; }
+  .diff-desc { font-size: .88rem; color: var(--muted); line-height: 1.65; }
+ 
+  /* spoofing highlight card */
+  .spoofing-card {
+    background: var(--navy);
+    border-radius: 20px; padding: 3rem;
+    position: relative; overflow: hidden;
+    animation: fadeUp .6s .15s ease both;
+    max-width: 1100px; margin: 1.2rem auto 0;
+  }
+  .spoofing-card::before {
+    content: ''; position: absolute; top: -80px; right: -80px;
+    width: 320px; height: 320px; border-radius: 50%;
+    background: radial-gradient(circle, rgba(14,165,233,.18) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .spoofing-inner {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 3rem;
+    align-items: start; position: relative; z-index: 1;
+  }
+ 
+  /* ── PORTFÓLIO ── */
+  .solutions { background: var(--white); }
+ 
+  /* ── CTA ── */
+  .cta-section {
+    text-align: center;
+    background: linear-gradient(135deg, var(--navy) 0%, var(--navy-soft) 100%);
+    padding: 6rem 6vw; position: relative; overflow: hidden;
+  }
+  .cta-section::before {
+    content: ''; position: absolute; top: -40%; left: 50%; transform: translateX(-50%);
+    width: 600px; height: 600px;
+    background: radial-gradient(circle, rgba(14,165,233,.15) 0%, transparent 65%);
+    border-radius: 50%; pointer-events: none;
+  }
+  .cta-section h2 { font-size: clamp(2rem, 4vw, 2.8rem); color: #fff; animation: fadeUp .6s .05s ease both; }
+  .cta-section h2 em { color: var(--cyan); }
+  .cta-section > p { color: rgba(255,255,255,.65); margin: 1rem auto 2.5rem; max-width: 500px; font-size: 1rem; animation: fadeUp .6s .15s ease both; }
+  .cta-actions { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; animation: fadeUp .6s .25s ease both; }
+  .btn-primary-light {
+    background: var(--grad); color: #fff; font-weight: 600;
+    border: none; border-radius: 10px; padding: 1.05rem 2.5rem;
+    font-size: 1.05rem; cursor: pointer; text-decoration: none;
+    transition: opacity .2s, transform .15s; display: inline-block;
+    box-shadow: 0 3px 16px rgba(31,95,247,.4);
+  }
+  .btn-primary-light:hover { opacity: .9; transform: translateY(-2px); }
+  .btn-ghost-light {
+    background: transparent; color: rgba(255,255,255,.85);
+    border: 1.5px solid rgba(255,255,255,.3); border-radius: 10px;
+    padding: 1.05rem 2.5rem; font-size: 1.05rem;
+    cursor: pointer; text-decoration: none;
+    transition: background .2s, transform .15s; display: inline-block;
+  }
+  .btn-ghost-light:hover { background: rgba(255,255,255,.08); transform: translateY(-2px); }
+ 
+  /* ── FOOTER — landing page compact ── */
+  .lp-footer {
+    background: var(--navy);
+    border-top: 1px solid rgba(255,255,255,.07);
+    padding: 2.2rem 6vw;
+    display: flex; align-items: center; justify-content: space-between;
+    flex-wrap: wrap; gap: 1.2rem;
+  }
+  .lp-footer-logo {
+    display: flex; align-items: center; text-decoration: none;
+    height: 32px;
+  }
+  .lp-footer-logo img {
+    height: 28px;
+    width: auto;
+    object-fit: contain;
+  }
+  .lp-footer-links { display: flex; gap: 1.8rem; flex-wrap: wrap; }
+  .lp-footer-links a { color: rgba(255,255,255,.5); text-decoration: none; font-size: .82rem; transition: color .2s; }
+  .lp-footer-links a:hover { color: var(--cyan); }
+  .lp-footer-right { font-size: .8rem; color: rgba(255,255,255,.35); }
+ 
+  /* ── RESPONSIVE ── */
+  @media (max-width: 900px) {
+    .hero-grid, .spoofing-inner { grid-template-columns: 1fr; }
+    .hero-visual { display: none; }
+    .feat-grid { grid-template-columns: 1fr; }
+    .diff-grid  { grid-template-columns: 1fr; }
+    .stats-strip { grid-template-columns: 1fr; }
+    .stat-item { border-right: none; border-bottom: 1px solid rgba(255,255,255,.08); }
+    .stat-item:last-child { border-bottom: none; }
+    .lp-footer { flex-direction: column; align-items: flex-start; }
+    .spoofing-card { padding: 2rem 1.5rem; }
+  }
+</style>
+</head>
+<body>
+ 
+<!-- NAV -->
+<nav>
+  <!-- Logo esquerdo: GOSAT Telecom -->
+  <a class="nav-logo" href="#">
+    <img
+      src="https://gosat.org/wp-content/uploads/2026/03/LOGO-GOSAT@300x.webp"
+      alt="GOSAT Telecom"
+      onerror="this.style.display='none'; this.parentNode.innerHTML='<span style=\'font-family:Lexend,sans-serif;font-weight:800;font-size:1.3rem;color:#0a1e45\'>GOSAT <span style=\'color:#1553d4\'>Telecom</span></span>'"
+    >
+  </a>
+
+  <!-- Logo direito: GOSAT Voice (substitui botão "Falar com Especialista") -->
+  <a class="nav-voice-logo" href="https://gosat.org/contato" target="_blank" title="Falar com Especialista">
+    <img
+      src="https://gosat.org/wp-content/uploads/2025/12/LOGO-VOICE-@300x.webp"
+      alt="GOSAT Voice"
+      onerror="this.style.display='none'; this.parentNode.innerHTML='<span style=\'font-family:Lexend,sans-serif;font-weight:800;font-size:1.2rem;color:#0a1e45\'>GOSAT <span style=\'color:#1553d4\'>Voice</span></span>'"
+    >
+  </a>
+</nav>
+ 
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-grid">
+    <div class="hero-content">
+      <div class="hero-badge">📞 Telefonia VoIP Corporativa</div>
+      <h1>Comunicação <em>corporativa</em> de alta performance</h1>
+      <p class="hero-sub">Telefonia VoIP B2B com alta qualidade de voz , infraestrutura redundante e tecnologias exclusivas que elevam a eficiência do seu negócio.</p>
+      <div class="hero-actions">
+        <a class="btn-primary btn-large" href="https://gosat.org/contato" target="_blank">Solicitar Proposta</a>
+        </div>
+    </div>
+    <div class="hero-visual">
+      <img
+        src="https://gosat.org/wp-content/uploads/2026/03/futuristic-digital-globe-made-of-thin-white-and-light-gray-lines-subtle-blue-and-purple-glow-accents-4472f5-813598-wireframe-sphere-centered-composition-isolated-object-pure-white-backgr-1.png"
+        alt="Anti-Fraude GOSAT Voice"
+        class="hero-img"
+      >
+    </div>
+  </div>
+</section>
+ 
+<!-- STATS -->
+<div class="stats-strip">
+  <div class="stat-item">
+    <div class="stat-num">4</div>
+    <div class="stat-label">Data Centers (BR + EUA)</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-num">99.9%</div>
+    <div class="stat-label">Disponibilidade Garantida</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-num">+15%</div>
+    <div class="stat-label">Conversão com Callback Ativo</div>
+  </div>
+</div>
+ 
+<!-- FEATURES -->
+<section class="features" id="features">
+  <div class="features-header">
+    <div class="section-tag">⚙️ Tecnologia que trabalha por você</div>
+    <h2>Recursos exclusivos para <em>máxima eficiência</em></h2>
+    <p class="section-intro">Cada funcionalidade foi projetada para aumentar a conversão, reduzir custos e garantir a melhor experiência de comunicação corporativa.</p>
+  </div>
+  <div class="feat-grid">
+    <div class="feat-card">
+      <div class="feat-icon">📊</div>
+      <div class="feat-title">Painel de Controle em Tempo Real</div>
+      <div class="feat-desc">Acompanhe consumo, eficiência e tentativas de contato com relatórios completos para tomada de decisão ágil e inteligente.</div>
+      <span class="feat-tag">BI Integrado</span>
+    </div>
+    <div class="feat-card">
+      <div class="feat-icon">🎯</div>
+      <div class="feat-title">Classificador de Chamadas</div>
+      <div class="feat-desc">Filtra automaticamente caixa postal e números inválidos, entregando apenas chamadas com potencial real de conexão. Mais produtividade, menos desperdício.</div>
+      <span class="feat-tag">IA Preditiva</span>
+    </div>
+    <div class="feat-card">
+      <div class="feat-icon">🔁</div>
+      <div class="feat-title">Callback Ativo</div>
+      <div class="feat-desc">Aumenta de 8% a 15% a eficiência do atendimento inbound. Clientes recebem retorno automático de tentativas perdidas, elevando a conversão diretamente.</div>
+      <span class="feat-tag">+15% Conversão</span>
+    </div>
+    <div class="feat-card">
+      <div class="feat-icon">📍</div>
+      <div class="feat-title">Bina Inteligente</div>
+      <div class="feat-desc">Exibe o DDD local do cliente na tela, com randomização via número fixo ou móvel — aumentando expressivamente a taxa de atendimento.</div>
+      <span class="feat-tag">Localização Dinâmica</span>
+    </div>
+    <div class="feat-card">
+      <div class="feat-icon">🛡️</div>
+      <div class="feat-title">Protocolo Anti-Spoofing/Fraude</div>
+      <div class="feat-desc">Tecnologia proprietária que blinda suas chamadas contra clonagem de número. Proteção completa para a reputação da sua marca e segurança dos seus clientes.</div>
+      <span class="feat-tag">Exclusivo GOSAT</span>
+    </div>
+    <div class="feat-card">
+      <div class="feat-icon">🚀</div>
+      <div class="feat-title">Rota Prime</div>
+      <div class="feat-desc">Rota dedicada de alta qualidade com áudio cristalino, baixa latência e segurança máxima em cada chamada da sua operação.</div>
+      <span class="feat-tag">Alta Qualidade</span>
+    </div>
+  </div>
+</section>
+ 
+<!-- DIFERENCIAIS -->
+<section class="diff" id="diferenciais">
+  <div class="diff-header">
+    <div class="section-tag">🏆 Por que GOSAT Voice?</div>
+    <h2>Diferenciais que <em>nos destacam</em></h2>
+    <p class="section-intro" style="margin:1rem auto 0;">Infraestrutura de classe mundial, atendimento personalizado e tecnologia proprietária — tudo que sua operação precisa em um único parceiro.</p>
+  </div>
+ 
+  <div class="diff-grid" style="margin-top:3rem;">
+    <div class="diff-card" style="animation-delay:.1s">
+      <div class="diff-icon">🌐</div>
+      <div class="diff-title">Cobertura Nacional com Pontos de Presença</div>
+      <div class="diff-desc">POPs distribuídos em todo o território nacional garantem conexões estáveis, sem interrupções e com qualidade de voz impecável de ponta a ponta.</div>
+    </div>
+    <div class="diff-card" style="animation-delay:.18s">
+      <div class="diff-icon">🏗️</div>
+      <div class="diff-title">4 Data Centers Redundantes</div>
+      <div class="diff-desc">3 estados no Brasil + 1 nos EUA, com failover automático e monitoramento 24/7. Alta disponibilidade para sua operação nunca parar.</div>
+    </div>
+    <div class="diff-card" style="animation-delay:.26s">
+      <div class="diff-icon">🔧</div>
+      <div class="diff-title">Suporte Técnico Especializado</div>
+      <div class="diff-desc">Plataforma exclusiva "Resolve" para abertura e acompanhamento de chamados. Comunicação ágil com analistas dedicados ao seu negócio.</div>
+    </div>
+    <div class="diff-card" style="animation-delay:.34s">
+      <div class="diff-icon">⚡</div>
+      <div class="diff-title">Condições Técnicas e Comerciais Personalizadas</div>
+      <div class="diff-desc">Nada de pacotes genéricos. Estruturamos soluções sob medida para o volume e necessidades exclusivas da sua operação.</div>
+    </div>
+  </div>
+ 
+  <!-- Anti-Spoofing destaque -->
+  <div class="spoofing-card">
+    <div class="spoofing-inner">
+      <div>
+        <div style="display:inline-flex;align-items:center;gap:.5rem;background:rgba(5,150,105,.15);border:1px solid rgba(5,150,105,.3);border-radius:100px;padding:.3rem 1rem;font-size:.75rem;font-weight:600;color:#34d399;letter-spacing:.07em;text-transform:uppercase;margin-bottom:1.2rem;">
+          🔒 Tecnologia Exclusiva GOSAT
+        </div>
+        <h3 style="font-family:'Lexend',sans-serif;font-size:1.65rem;font-weight:800;line-height:1.15;color:#fff;letter-spacing:-.02em;margin-bottom:1rem;">
+          Protocolo Anti-Spoofing &amp; Anti-Fraude Proprietário
+        </h3>
+        <p style="color:rgba(255,255,255,.6);font-size:.95rem;line-height:1.75;margin-bottom:1.1rem;">
+          Golpistas que clonam o número da sua empresa para aplicar fraudes destroem reputação, quebram a confiança e geram prejuízos imensuráveis — esse risco é real para qualquer operação corporativa.
+        </p>
+        <p style="color:rgba(255,255,255,.6);font-size:.95rem;line-height:1.75;">
+          A GOSAT desenvolveu um <strong style="color:#fff;">protocolo proprietário</strong> que autentica cada chamada na origem, blinda todo o trajeto até o cliente final e opera sobre qualquer infraestrutura SIP. <strong style="color:#fff;">Nenhum outro provedor VoIP oferece isso.</strong>
+        </p>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:.9rem;">
+        <div style="background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:14px;padding:1.5rem;display:flex;flex-direction:column;gap:1rem;">
+          <div style="font-size:.72rem;color:rgba(255,255,255,.4);text-transform:uppercase;letter-spacing:.08em;">O que garante na prática</div>
+          <div style="display:flex;align-items:flex-start;gap:.8rem;">
+            <span style="color:#34d399;margin-top:.15rem;">✓</span>
+            <span style="font-size:.88rem;color:rgba(255,255,255,.65);line-height:1.6;">Nenhum terceiro consegue discar usando seu número</span>
+          </div>
+          <div style="display:flex;align-items:flex-start;gap:.8rem;">
+            <span style="color:#34d399;margin-top:.15rem;">✓</span>
+            <span style="font-size:.88rem;color:rgba(255,255,255,.65);line-height:1.6;">Proteção até o cliente final, não só na sua rede</span>
+          </div>
+          <div style="display:flex;align-items:flex-start;gap:.8rem;">
+            <span style="color:#34d399;margin-top:.15rem;">✓</span>
+            <span style="font-size:.88rem;color:rgba(255,255,255,.65);line-height:1.6;">Implantação sem alterações na infraestrutura atual</span>
+          </div>
+        </div>
+        <div style="background:rgba(5,150,105,.12);border:1px solid rgba(5,150,105,.25);border-radius:14px;padding:1.3rem;">
+          <div style="font-size:.72rem;color:rgba(255,255,255,.4);text-transform:uppercase;letter-spacing:.08em;margin-bottom:.5rem;">Resultado para o seu negócio</div>
+          <div style="font-family:'Lexend',sans-serif;font-size:1.45rem;font-weight:800;color:#34d399;line-height:1.1;">Marca segura.<br>Cliente confiante.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+ 
+<!-- PORTFÓLIO -->
+<section class="solutions" id="solucoes">
+  <div style="
+    background: linear-gradient(135deg, var(--bg-mid) 0%, var(--white) 100%);
+    border: 1.5px solid var(--border);
+    border-radius: 24px;
+    padding: 4rem;
+    text-align: center;
+    position: relative; overflow: hidden;
+    max-width: 1100px; margin: 0 auto;
+    box-shadow: 0 2px 24px rgba(21,83,212,.07);
+    animation: fadeUp .6s .1s ease both;
+  ">
+    <div style="position:absolute;inset:0;background:radial-gradient(ellipse at 50% -10%, rgba(14,165,233,.08) 0%, transparent 60%);pointer-events:none;"></div>
+    <div style="position:relative;z-index:1;">
+      <div class="section-tag" style="margin-bottom:1.2rem;">🧩 Ecossistema Completo</div>
+      <h2>Soluções que <em>ampliam seu potencial</em></h2>
+      <p style="color:var(--muted);font-size:1.05rem;max-width:600px;margin:1.2rem auto 0;line-height:1.75;">
+        Muito além da terminação de chamadas — temos um portfólio completo de soluções que vão <strong style="color:var(--navy);">agregar e transformar toda a comunicação da sua empresa.</strong>
+      </p>
+      <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:.75rem;margin-top:2.5rem;">
+        <span style="background:var(--cyan-soft);border:1px solid rgba(14,165,233,.25);border-radius:100px;padding:.5rem 1.2rem;font-size:.87rem;background:var(--grad-text);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;font-weight:500;">Smart Call — IA de Voz</span>
+        <span style="background:var(--cyan-soft);border:1px solid rgba(14,165,233,.25);border-radius:100px;padding:.5rem 1.2rem;font-size:.87rem;background:var(--grad-text);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;font-weight:500;">Smart Connect — IPBX Multicanal</span>
+        <span style="background:var(--cyan-soft);border:1px solid rgba(14,165,233,.25);border-radius:100px;padding:.5rem 1.2rem;font-size:.87rem;background:var(--grad-text);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;font-weight:500;">Branded Call</span>
+        <span style="background:var(--cyan-soft);border:1px solid rgba(14,165,233,.25);border-radius:100px;padding:.5rem 1.2rem;font-size:.87rem;background:var(--grad-text);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;font-weight:500;">Noise Firewall</span>
+        <span style="background:var(--cyan-soft);border:1px solid rgba(14,165,233,.25);border-radius:100px;padding:.5rem 1.2rem;font-size:.87rem;background:var(--grad-text);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;font-weight:500;">Número 0800 &amp; NUN</span>
+        <span style="background:var(--cyan-soft);border:1px solid rgba(14,165,233,.25);border-radius:100px;padding:.5rem 1.2rem;font-size:.87rem;background:var(--grad-text);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;font-weight:500;">VoIP via SIP</span>
+      </div>
+      <div style="margin-top:2.5rem;">
+        <a class="btn-primary" href="https://gosat.org/contato" target="_blank" style="padding:.9rem 2.2rem;">Conheça todas as soluções</a>
+      </div>
+    </div>
+  </div>
+</section>
+ 
+<!-- CTA FINAL -->
+<section class="cta-section">
+  <div class="section-tag" style="margin-bottom:.8rem;">✉️ Vamos conversar</div>
+  <h2>Pronto para <em>elevar</em> a comunicação da sua empresa?</h2>
+  <p>Fale com nossos especialistas e receba uma proposta personalizada. Sem custo, sem compromisso.</p>
+  <div class="cta-actions">
+    <a class="btn-primary-light" href="https://gosat.org/contato" target="_blank">Fale com nossos especialistas</a>
+ </div>
+
+</section>
+ 
+<!-- FOOTER -->
+<footer class="lp-footer">
+  <a class="lp-footer-logo" href="#">
+    <img
+      src="https://gosat.org/wp-content/uploads/2025/12/Ativo-17@300x.webp"
+      alt="GOSAT Telecom">
+  
+    </a>
+  <div class="lp-footer-links">
+    <a href="https://gosat.org/politica-de-privacidade" target="_blank">Política de Privacidade</a>
+    <a href="https://gosat.org/termos-de-uso" target="_blank">Termos de Uso</a>
+    <a href="mailto:comercial@gosat.org" target="_blank">comercial@gosat.org</a>
+  </div>
+</footer>
